@@ -12,10 +12,11 @@ class Dashboard::TrainerController < Dashboard::BaseController
   def review_card
     @card = current_user.cards.find(params[:card_id])
 
-    check_result = @card.check_translation(trainer_params[:user_translation])
+    check_result = TranslationChecker.new(@card)
+                      .check(trainer_params[:user_translation])
 
-    if check_result[:state]
-      if check_result[:distance] == 0
+    if check_result.success?
+      if check_result.distance == 0
         flash[:notice] = t(:correct_translation_notice)
       else
         flash[:alert] = t 'translation_from_misprint_alert',
