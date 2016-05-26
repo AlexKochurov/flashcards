@@ -12,9 +12,9 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "box-cutter/fedora23"
+  config.vm.box = "ubuntu/trusty64"
   # config.vm.box = "ubuntu/trusty64"
-  config.omnibus.chef_version = "12.10.24"
+  config.omnibus.chef_version = "12.3.0"
 
   # config.vm.network "forwarded_port", guest: 3000, host: 4000
 
@@ -38,6 +38,10 @@ Vagrant.configure(2) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
+  config.vm.synced_folder ".", "/home/vagrant/flashcards"
+
+  config.vm.network :forwarded_port, guest: 3000, host: 1234
+
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.memory = "2048"
@@ -57,11 +61,35 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "chef_solo" do |chef|
-    chef.cookbooks_path = ["chef/site-cookbooks", "chef/berks-cookbooks"]
-    chef.data_bags_path = "chef/data_bags"
-    chef.roles_path = "chef/roles"
-    chef.nodes_path = "chef/nodes"
+    # chef.cookbooks_path = ["chef/site-cookbooks", "chef/berks-cookbooks"]
+    # chef.data_bags_path = "chef/data_bags"
+    # chef.roles_path = "chef/roles"
+    # chef.nodes_path = "chef/nodes"
 
-    chef.add_role "rails-app"
+    # chef.add_role "rails-app"
+
+    #chef.add_recipe "yum"
+    #chef.add_recipe "poise-python"
+    chef.add_recipe "apt"
+    chef.add_recipe "vim"
+
+    chef.add_recipe "postgresql"
+    chef.add_recipe "postgresql::server"
+
+    chef.json = {
+      postgresql: {
+        pg_hba: [
+          {"type": "local", "db": "all", "user": "postgres",   "addr": nil,               "method": "trust"},
+          {"type": "local", "db": "all", "user": "all",        "addr": nil,               "method": "md5"},
+          {"type": "host",  "db": "all", "user": "all",        "addr": "127.0.0.1/32",     "method": "md5"},
+          {"type": "host",  "db": "all", "user": "all",        "addr": "::1/128",          "method": "md5"},
+
+          {"type": "local", "db": "all", "user": "vagrant",    "addr": nil,               "method": "trust"},
+          {"type": "host",  "db": "all", "user": "all",        "addr": "192.168.248.1/24", "method": "md5"} ],
+        password: {
+          postgres: "1234"
+        }
+    }
+    }
   end
 end

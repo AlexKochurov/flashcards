@@ -1,0 +1,9 @@
+site 'https://supermarket.getchef.com/api/v1'
+
+cookbook 'apt'
+cookbook 'nodejs'
+cookbook 'build-essential'
+cookbook 'ruby_rbenv', '~> 1.0.1'
+cookbook 'postgresql', git: 'http://github.com/hw-cookbooks/postgresql'
+cookbook 'ruby_build'
+cookbook 'vim'
