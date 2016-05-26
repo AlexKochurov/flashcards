@@ -45,4 +45,9 @@ end
 group :development do
   gem 'better_errors'
   gem 'bullet'
+
+  gem 'knife-solo', '~> 0.5.1'
+  gem 'chef',       '~> 12.10.24'
+  gem 'chef-zero',  '~> 4.6.2'
+  gem 'berkshelf',  '~> 4.3.3'
 end

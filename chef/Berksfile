@@ -1,0 +1,4 @@
+source "https://api.berkshelf.com"
+
+cookbook 'rails_gem_dependencies-tlq', github: 'TalkingQuickly/rails_gem_dependencies-tlq'
+cookbook 'ruby_rbenv', github: 'fnichol/chef-rbenv'
