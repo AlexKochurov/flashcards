@@ -70,6 +70,8 @@ Vagrant.configure(2) do |config|
 
     #chef.add_recipe "yum"
     #chef.add_recipe "poise-python"
+    chef.cookbooks_path = ["site-cookbooks", "cookbooks"]
+
     chef.add_recipe "apt"
     chef.add_recipe "vim"
 
@@ -80,6 +82,8 @@ Vagrant.configure(2) do |config|
 
     chef.add_recipe "ruby_build"
     chef.add_recipe "ruby_rbenv::system"
+
+    chef.add_recipe "bootstrap-app"
 
     chef.json = {
       postgresql: {
