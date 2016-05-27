@@ -35,6 +35,7 @@ gem 'responders', '~> 2.0'
 
 gem 'slim'
 gem 'thin'
+gem 'foreman'
 
 group :development, :test do
   gem 'rspec-rails'
