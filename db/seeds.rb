@@ -19,8 +19,8 @@ b = user.blocks.create(title: "Top words")
 doc = Nokogiri::HTML(open('https://www.learnathome.ru/blog/100-beautiful-words'))
 
 doc.search('//table/tbody/tr').each do |row|
-  original = row.search('td[2]/p')[0].content.downcase
-  translated = row.search('td[1]/p')[0].content.downcase
+  original = row.search('td')[1].content.downcase
+  translated = row.search('td')[3].content.downcase
   user.cards.create(original_text: original, translated_text: translated,
                     block_id: b.id)
 end
