@@ -10,5 +10,4 @@
 3. `vagrant plugin install vagrant-omnibus`
 4. `gem install chef -v 12.10.24 --no-ri --no-rdoc`
 5. `vagrant up`
-6. `vagrant ssh`
-7. Приложение открывается в браузере: http://localhost:1234
+6. Приложение открывается в браузере: http://localhost:1234
