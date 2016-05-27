@@ -73,23 +73,51 @@ Vagrant.configure(2) do |config|
     chef.add_recipe "apt"
     chef.add_recipe "vim"
 
+    chef.add_recipe "nodejs"
+
     chef.add_recipe "postgresql"
     chef.add_recipe "postgresql::server"
+
+    chef.add_recipe "ruby_build"
+    chef.add_recipe "ruby_rbenv::system"
 
     chef.json = {
       postgresql: {
         pg_hba: [
-          {"type": "local", "db": "all", "user": "postgres",   "addr": nil,               "method": "trust"},
-          {"type": "local", "db": "all", "user": "all",        "addr": nil,               "method": "md5"},
-          {"type": "host",  "db": "all", "user": "all",        "addr": "127.0.0.1/32",     "method": "md5"},
-          {"type": "host",  "db": "all", "user": "all",        "addr": "::1/128",          "method": "md5"},
-
-          {"type": "local", "db": "all", "user": "vagrant",    "addr": nil,               "method": "trust"},
-          {"type": "host",  "db": "all", "user": "all",        "addr": "192.168.248.1/24", "method": "md5"} ],
+          {
+            "type": "local",     "db": "all",       "user": "postgres",
+            "addr": nil,         "method": "trust"
+          },
+          {
+            "type": "local",     "db": "all",       "user": "all",
+            "addr": nil,         "method": "md5"
+          },
+          {
+            "type": "host",      "db": "all",       "user": "all",
+            "method": "md5",     "addr": "127.0.0.1/32",
+          },
+          {
+            "type": "host",      "db": "all",       "method": "md5",
+            "user": "all",       "addr": "::1/128"
+          },
+          {
+            "type": "local",     "db": "all",       "method": "trust",
+            "user": "vagrant",   "addr": nil
+          },
+          {
+            "type": "host",      "db": "all",       "method": "md5",
+            "user": "all",       "addr": "192.168.248.1/24"
+          }
+        ],
         password: {
           postgres: "1234"
         }
-    }
+      },
+      rbenv: {
+        rubies: ["2.3.1"],
+        global: "2.3.1",
+        gems: { "2.3.1": [{"name": "bundler"}]}
+      }
     }
   end
 end
