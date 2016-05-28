@@ -18,3 +18,7 @@
 config/database.yml
 config/application.yml
 public/uploads/
+
+/.vagrant
+/chef/berks-cookbooks
+/cookbooks
