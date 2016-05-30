@@ -37,6 +37,7 @@ gem 'slim'
 gem 'thin'
 gem 'foreman'
 gem 'rolify'
+gem 'activeadmin', github: 'activeadmin'
 
 group :development, :test do
   gem 'rspec-rails'
