@@ -38,6 +38,7 @@ gem 'thin'
 gem 'foreman'
 gem 'rolify'
 gem 'activeadmin', github: 'activeadmin'
+gem 'pundit'
 
 group :development, :test do
   gem 'rspec-rails'
