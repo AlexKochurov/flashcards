@@ -19,7 +19,7 @@
           p.navbar-text.navbar-right
             - if current_user
               = link_to current_user.email, edit_profile_path(current_user),
-                          class: 'navbar-link', class: 'user_email'
+                          class: 'user_email'
               = ' | '
               = link_to t(:delete_user_label), user_path(current_user),
                           method: :delete, class: 'navbar-link',
