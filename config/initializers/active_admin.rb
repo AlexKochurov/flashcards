@@ -5,11 +5,7 @@ ActiveAdmin.setup do |config|
   # for each of the active admin pages.
   #
   config.site_title = "Flashcards"
-
-  # Set the link url for the title. For example, to take
-  # users to your main site. Defaults to no link.
-  #
-  # config.site_title_link = "/"
+  config.site_title_link = "/"
 
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
@@ -77,7 +73,7 @@ ActiveAdmin.setup do |config|
   # because, by default, user gets redirected to Dashboard. If user
   # doesn't have access to Dashboard, he'll end up in a redirect loop.
   # Method provided here should be defined in application_controller.rb.
-  # config.on_unauthorized_access = :access_denied
+  config.on_unauthorized_access = :admin_access_denied
 
   # == Current User
   #
@@ -89,22 +85,8 @@ ActiveAdmin.setup do |config|
   config.current_user_method = :current_user
 
   # == Logging Out
-  #
-  # Active Admin displays a logout link on each screen. These
-  # settings configure the location and method used for the link.
-  #
-  # This setting changes the path where the link points to. If it's
-  # a string, the strings is used as the path. If it's a Symbol, we
-  # will call the method to return the path.
-  #
-  # Default:
-  config.logout_link_path = '/'
-
-  # This setting changes the http method used when rendering the
-  # link. For example :get, :delete, :put, etc..
-  #
-  # Default:
-  # config.logout_link_method = :get
+  config.logout_link_path   = :logout_path
+  config.logout_link_method = :post
 
   # == Root
   #

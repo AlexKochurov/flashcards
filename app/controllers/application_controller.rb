@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
 
+  def admin_access_denied(exception)
+    flash[:alert] = exception.message
+    redirect_to root_url
+  end
+
   private
 
   def set_locale
