@@ -1,4 +1,4 @@
-ActiveAdmin.register User do
+ActiveAdmin.register Card do
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
@@ -13,6 +13,7 @@ ActiveAdmin.register User do
 #   permitted
 # end
 
-  actions :all, except: [:new, :create, :edit, :update]
-  menu priority: 5, label: "Пользователи"
+  belongs_to :block
+  navigation_menu :block
+
 end
