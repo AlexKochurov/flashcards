@@ -1,74 +1,55 @@
 require 'rails_helper'
 
 describe TranslationChecker do
+  def card(orig, trans)
+    create(:card, original_text: orig, translated_text: trans, user_id: 1, block_id: 1)
+  end
+
+  def check_result(test_card, translation)
+    TranslationChecker.new(test_card).check(translation)
+  end
 
   it 'succeeds with correct translation' do
-    card = Card.create(original_text: 'дом', translated_text: 'house',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('house')
-    expect(check_result.success?).to be true
+    expect(check_result(card('дом', 'house'), 'house')).to be_success
   end
 
   it 'fails with incorrect translation' do
-    card = Card.create(original_text: 'дом', translated_text: 'house',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('RoR')
-    expect(check_result.success?).to be false
+    expect(check_result(card('дом', 'house'), 'RoR')).not_to be_success
   end
 
   it 'succeeds with correct Rus translation' do
-    card = Card.create(original_text: 'house', translated_text: 'дом',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('дом')
-    expect(check_result.success?).to be true
+    expect(check_result(card('house', 'дом'), 'дом')).to be_success
   end
 
   it 'fails with wrong Rus translation' do
-    card = Card.create(original_text: 'house', translated_text: 'дом',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('RoR')
-    expect(check_result.success?).to be false
+    expect(check_result(card('house', 'дом'), 'RoR')).not_to be_success
   end
 
-  it 'full_downcase makes its job' do
-    card = Card.create(original_text: 'ДоМ', translated_text: 'hOuSe',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('HousE')
-    expect(check_result.success?).to be true
+  context 'full_downcase' do
+    it 'makes its job' do
+      expect(check_result(card('ДоМ', 'hOuSe'), 'HousE')).to be_success
+    end
+
+    it 'makes its job (rus)' do
+      expect(check_result(card('hOuSe', 'ДоМ'), 'дОм')).to be_success
+    end
   end
 
-  it 'full_downcase makes its job even in Rus case' do
-    card = Card.create(original_text: 'hOuSe', translated_text: 'ДоМ',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('дОм')
-    expect(check_result.success?).to be true
-  end
+  context "Levenstain distance" do
+    it 'it is OK when equals to 1' do
+      expect(check_result(card('дом', 'house'), 'hous')).to be_success
+    end
 
-  it 'feels OK with levenshtein_distance = 1' do
-    card = Card.create(original_text: 'дом', translated_text: 'house',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('hous')
-    expect(check_result.success?).to be true
-  end
+    it 'it is OK when equals to 1 (rus)' do
+      expect(check_result(card('house', 'дом'), 'дым')).to be_success
+    end
 
-  it 'feels OK with levenshtein_distance = 1 (Rus)' do
-    card = Card.create(original_text: 'house', translated_text: 'дом',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('дым')
-    expect(check_result.success?).to be true
-  end
+    it 'fails when greater than 1' do
+      expect(check_result(card('дом', 'house'), 'hauze')).not_to be_success
+    end
 
-  it 'fails with levenshtein_distance = 2' do
-    card = Card.create(original_text: 'дом', translated_text: 'house',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('hauze')
-    expect(check_result.success?).to be false
-  end
-
-  it 'fails with levenshtein_distance = 2 (Rus)' do
-    card = Card.create(original_text: 'house', translated_text: 'дом',
-                       user_id: 1, block_id: 1)
-    check_result = TranslationChecker.new(card).check('дымы')
-    expect(check_result.success?).to be false
+    it 'fails when greater than 1 (rus)' do
+      expect(check_result(card('house', 'дом'), 'дымы')).not_to be_success
+    end
   end
 end

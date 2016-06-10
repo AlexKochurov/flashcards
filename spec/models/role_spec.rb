@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Role do
-  let(:user) { User.create(email: 't@t.com',
-                           password: '12345', password_confirmation: '12345') }
+  let(:user)  { create(:user) }
+  let(:admin) { create(:admin_user) }
 
   it "creates the role object when add new role to user" do
     expect { user.add_role :absolutely_new_role }.to change{ Role.count }.by(1)
@@ -13,7 +13,6 @@ describe Role do
   end
 
   it "detects when user has role" do
-    user.add_role :admin
-    expect(user.has_role? :admin).to be_truthy
+    expect(admin.has_role? :admin).to be_truthy
   end
 end

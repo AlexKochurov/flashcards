@@ -3,15 +3,8 @@ require 'rails_helper'
 describe ActiveAdmin::PagePolicy do
   subject { described_class }
 
-  let(:user) do
-    User.create(email: 'user@my.com', password: '12345', password_confirmation: '12345')
-  end
-
-  let(:admin) do
-    a = User.create(email: 'admin@my.com', password: '12345', password_confirmation: '12345')
-    a.add_role :admin
-    a
-  end
+  let(:user)  { create(:user) }
+  let(:admin) { create(:admin_user) }
 
   permissions :show? do
     it "is imposible for user to see AA pages" do
