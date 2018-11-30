@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.3.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails', '~> 4.2.11'
 # Use postgresql as the database for Active Record
 gem 'pg'
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 
@@ -15,7 +15,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'rake'
-gem 'simple_form'
+gem 'simple_form', '~> 3.5.1'
 gem 'nokogiri'
 gem 'seedbank'
 gem 'sorcery'
@@ -37,7 +37,7 @@ gem 'slim'
 gem 'thin'
 gem 'foreman'
 gem 'rolify'
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', '~> 1.4.2'
 gem 'pundit'
 
 group :development, :test do
@@ -49,9 +49,4 @@ end
 group :development do
   gem 'better_errors'
   gem 'bullet'
-
-  gem 'knife-solo', '~> 0.5.1'
-  gem 'chef',       '~> 12.10.24'
-  gem 'chef-zero',  '~> 4.6.2'
-  gem 'berkshelf',  '~> 4.3.3'
 end
