@@ -5,13 +5,15 @@ class User < ActiveRecord::Base
   has_many :cards, dependent: :destroy
 
   validates :password, confirmation: true, presence: true,
-            length: { minimum: 3 }
+                       length: { minimum: 3 }
   validates :password_confirmation, presence: true
-  validates :email, uniqueness: true, presence: true,
-            format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
-  validates :locale, presence: true,
-            inclusion: { in: I18n.available_locales.map(&:to_s),
-                         message: 'Выберите локаль из выпадающего списка.' }
+  validates :email, uniqueness: true, presence: true, format: {
+    with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
+  }
+  validates :locale, presence: true, inclusion: {
+    in: I18n.available_locales.map(&:to_s),
+    message: 'Выберите локаль из выпадающего списка.'
+  }
 
   before_validation :set_default_locale, on: :create
   before_create :set_default_locale
