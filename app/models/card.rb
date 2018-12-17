@@ -1,17 +1,19 @@
 require 'super_memo'
 
 class Card < ActiveRecord::Base
-  belongs_to :user
   belongs_to :block
-  validates :user_id, presence: true
-  before_validation :set_review_date_as_now, on: :create
-  validate :texts_are_not_equal
-  validates :original_text, :translated_text, :review_date,
-            presence: { message: 'Необходимо заполнить поле.' }
-  validates :user_id, presence: { message: 'Ошибка ассоциации.' }
+  belongs_to :user
+
   validates :block_id,
             presence: { message: 'Выберите колоду из выпадающего списка.' }
   validates :interval, :repeat, :efactor, :quality, :attempt, presence: true
+  validates :original_text, :translated_text, :review_date,
+            presence: { message: 'Необходимо заполнить поле.' }
+  validates :user_id, presence: true
+  validates :user_id, presence: { message: 'Ошибка ассоциации.' }
+  validate  :texts_are_not_equal
+
+  before_validation :set_review_date_as_now, on: :create
 
   mount_uploader :image, CardImageUploader
 

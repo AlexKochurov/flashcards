@@ -1,17 +1,8 @@
 class User < ActiveRecord::Base
-  rolify
-  has_many :cards, dependent: :destroy
-  has_many :blocks, dependent: :destroy
-  has_many :authentications, dependent: :destroy
   belongs_to :current_block, class_name: 'Block'
-  before_create :set_default_locale
-  before_validation :set_default_locale, on: :create
-
-  accepts_nested_attributes_for :authentications
-
-  authenticates_with_sorcery! do |config|
-    config.authentications_class = Authentication
-  end
+  has_many :authentications, dependent: :destroy
+  has_many :blocks, dependent: :destroy
+  has_many :cards, dependent: :destroy
 
   validates :password, confirmation: true, presence: true,
             length: { minimum: 3 }
@@ -21,6 +12,17 @@ class User < ActiveRecord::Base
   validates :locale, presence: true,
             inclusion: { in: I18n.available_locales.map(&:to_s),
                          message: 'Выберите локаль из выпадающего списка.' }
+
+  before_validation :set_default_locale, on: :create
+  before_create :set_default_locale
+
+  rolify
+
+  accepts_nested_attributes_for :authentications
+
+  authenticates_with_sorcery! do |config|
+    config.authentications_class = Authentication
+  end
 
   def has_linked_github?
     authentications.where(provider: 'github').present?
